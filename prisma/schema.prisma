@@ -1,0 +1,91 @@
+generator client {
+ provider = "prisma-client-js"
+}
+
+datasource db {
+ provider = "postgresql"
+ url = env("DATABASE_URL")
+}
+
+model Category {
+ id String @id @default(cuid())
+ createdAt DateTime @default(now())
+ name String
+ description String
+}
+
+model Post {
+ id String @default(cuid()) @id
+ title String
+ content String?
+ file String?
+ createdAt DateTime @default(now())
+ likes Int @default(0)
+ published Boolean @default(false)
+ authorId String?
+}
+
+model Book {
+ id  Int @default(autoincrement()) @id
+ title String
+ author String
+}
+
+model guestBook {
+ id  Int @default(autoincrement()) @id
+ name String
+ text String
+ created DateTime @default(now())
+}
+
+model boughtList {
+ id  Int @default(autoincrement()) @id
+ item String
+ count String
+ price String
+ type String
+ shop String
+ created DateTime @default(now())
+}
+
+model shoppingList {
+ id  Int @default(autoincrement()) @id
+ item String
+ maker String
+ price String
+ stock String
+ created DateTime @default(now())
+}
+
+model messagingService {
+ id  Int @default(autoincrement()) @id
+ username String
+ text String
+ stamp String
+ groupname String
+ created DateTime @default(now())
+}
+
+model Review {
+ id String @default(cuid()) @id
+ posttitle String
+ title String
+ director String
+ category String
+ way String
+ comment String
+ content String?
+ file String?
+ createdAt DateTime @default(now())
+ likes Int @default(0)
+ published Boolean @default(false)
+ comments Comment[]
+}
+
+model Comment {
+ id String   @default(cuid()) @id
+ content String
+ createdAt DateTime @default(now())
+ reviewId String
+ review Review @relation(fields: [reviewId], references: [id])
+}
